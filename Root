@@ -1,0 +1,5 @@
+cd "C:\Users\kmrng\.gemini\antigravity\brain\29ceeb41-2d16-4516-8419-a8428b02fe1f"
+git init
+git add .
+git commit -m "Otter & Ankylosaurus Valentine's website"
+gh repo create valentine-otter-ankylosaurus --public --source=. --push
