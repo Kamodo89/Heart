@@ -1,0 +1,332 @@
+﻿/* ============================================
+   Valentine's Day — Otter & Ankylosaurus
+   ============================================ */
+
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  --pink-light: #ffe6f0;
+  --pink: #ff8fbf;
+  --pink-deep: #e74c6f;
+  --rose: #c44569;
+  --red: #e63946;
+  --purple-soft: #d4a5ff;
+  --bg-gradient-start: #1a0a1e;
+  --bg-gradient-mid: #2d1135;
+  --bg-gradient-end: #0f0a1a;
+  --card-bg: rgba(255, 255, 255, 0.08);
+  --card-border: rgba(255, 255, 255, 0.15);
+  --text-primary: #fff5f8;
+  --text-secondary: #ffb8d0;
+  --font-display: 'Dancing Script', cursive;
+  --font-body: 'Outfit', sans-serif;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--font-body);
+  background: linear-gradient(160deg, var(--bg-gradient-start), var(--bg-gradient-mid), var(--bg-gradient-end));
+  color: var(--text-primary);
+  min-height: 100vh;
+  overflow-x: hidden;
+  position: relative;
+}
+
+/* ---- Floating Hearts Container ---- */
+#hearts-container {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  overflow: hidden;
+}
+
+.floating-heart {
+  position: absolute;
+  bottom: -60px;
+  opacity: 0;
+  animation: floatUp var(--duration) var(--delay) ease-in forwards;
+  pointer-events: none;
+  filter: blur(0.5px);
+}
+
+@keyframes floatUp {
+  0% {
+    opacity: 0;
+    transform: translateY(0) translateX(0) rotate(0deg) scale(var(--scale));
+  }
+  10% {
+    opacity: var(--max-opacity);
+  }
+  50% {
+    opacity: var(--max-opacity);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(calc(-100vh - 100px)) translateX(var(--sway)) rotate(var(--rotation)) scale(var(--scale));
+  }
+}
+
+/* Click burst hearts */
+.burst-heart {
+  position: fixed;
+  pointer-events: none;
+  z-index: 100;
+  animation: burstOut var(--burst-duration) ease-out forwards;
+}
+
+@keyframes burstOut {
+  0% {
+    opacity: 1;
+    transform: translate(0, 0) scale(1) rotate(0deg);
+  }
+  100% {
+    opacity: 0;
+    transform: translate(var(--burst-x), var(--burst-y)) scale(0.3) rotate(var(--burst-rot));
+  }
+}
+
+/* ---- Sparkles ---- */
+#sparkles {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.sparkle {
+  position: absolute;
+  width: 4px;
+  height: 4px;
+  background: white;
+  border-radius: 50%;
+  animation: sparkleAnim var(--sparkle-dur) var(--sparkle-delay) ease-in-out infinite;
+  opacity: 0;
+}
+
+@keyframes sparkleAnim {
+  0%, 100% { opacity: 0; transform: scale(0); }
+  50% { opacity: 0.8; transform: scale(1); }
+}
+
+/* ---- Main ---- */
+main {
+  position: relative;
+  z-index: 1;
+}
+
+#hero {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  padding: 2rem 1rem;
+  text-align: center;
+  gap: 1.5rem;
+}
+
+/* ---- Title ---- */
+.title {
+  font-family: var(--font-display);
+  font-size: clamp(2.5rem, 7vw, 5rem);
+  font-weight: 700;
+  background: linear-gradient(135deg, var(--pink), var(--pink-deep), var(--purple-soft));
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-shadow: none;
+  animation: titleGlow 3s ease-in-out infinite alternate;
+  line-height: 1.2;
+}
+
+@keyframes titleGlow {
+  0% { filter: drop-shadow(0 0 8px rgba(231, 76, 111, 0.4)); }
+  100% { filter: drop-shadow(0 0 20px rgba(231, 76, 111, 0.7)); }
+}
+
+.subtitle {
+  font-family: var(--font-body);
+  font-size: clamp(1rem, 2.5vw, 1.4rem);
+  font-weight: 300;
+  color: var(--text-secondary);
+  letter-spacing: 0.05em;
+  opacity: 0;
+  animation: fadeInUp 1s 0.5s ease-out forwards;
+}
+
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* ---- Characters ---- */
+.characters {
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  gap: 0;
+  margin: 1rem 0;
+  opacity: 0;
+  animation: fadeInUp 1s 0.8s ease-out forwards;
+}
+
+.character {
+  transition: transform 0.3s ease;
+}
+
+.character:hover {
+  transform: scale(1.08);
+}
+
+.character.otter svg {
+  width: clamp(120px, 20vw, 180px);
+  height: auto;
+  filter: drop-shadow(0 8px 20px rgba(0,0,0,0.3));
+}
+
+.character.ankylosaurus svg {
+  width: clamp(140px, 25vw, 220px);
+  height: auto;
+  filter: drop-shadow(0 8px 20px rgba(0,0,0,0.3));
+}
+
+.character.otter {
+  animation: gentleBob 3s ease-in-out infinite;
+}
+
+.character.ankylosaurus {
+  animation: gentleBob 3s 0.5s ease-in-out infinite;
+}
+
+@keyframes gentleBob {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-8px); }
+}
+
+/* ---- Love Pulse Heart ---- */
+.love-pulse {
+  width: clamp(40px, 6vw, 60px);
+  margin: 0 -10px;
+  align-self: center;
+  animation: heartbeat 1.2s ease-in-out infinite;
+  filter: drop-shadow(0 0 15px rgba(255, 107, 157, 0.6));
+  z-index: 2;
+}
+
+@keyframes heartbeat {
+  0%, 100% { transform: scale(1); }
+  15% { transform: scale(1.25); }
+  30% { transform: scale(1); }
+  45% { transform: scale(1.15); }
+  60% { transform: scale(1); }
+}
+
+/* Held heart glow */
+.held-heart {
+  animation: heldHeartGlow 2s ease-in-out infinite alternate;
+}
+
+@keyframes heldHeartGlow {
+  0% { filter: drop-shadow(0 0 3px rgba(231, 76, 111, 0.4)); }
+  100% { filter: drop-shadow(0 0 10px rgba(231, 76, 111, 0.9)); }
+}
+
+/* Tail bow wiggle */
+.tail-bow {
+  animation: wiggleBow 2s ease-in-out infinite;
+  transform-origin: center;
+}
+
+@keyframes wiggleBow {
+  0%, 100% { transform: translate(210px, 140px) rotate(0deg) translate(-210px, -140px); }
+  50% { transform: translate(210px, 140px) rotate(10deg) translate(-210px, -140px); }
+}
+
+/* ---- Love Card ---- */
+.love-card {
+  background: var(--card-bg);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid var(--card-border);
+  border-radius: 20px;
+  padding: 2rem 2.5rem;
+  max-width: 440px;
+  width: 90%;
+  opacity: 0;
+  animation: fadeInUp 1s 1.2s ease-out forwards;
+  position: relative;
+  overflow: hidden;
+}
+
+.love-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(255, 107, 157, 0.1), rgba(196, 69, 105, 0.05));
+  border-radius: 20px;
+}
+
+.love-text {
+  font-family: var(--font-display);
+  font-size: clamp(1.2rem, 3vw, 1.6rem);
+  line-height: 1.6;
+  color: var(--text-primary);
+  position: relative;
+  z-index: 1;
+}
+
+.love-signature {
+  font-family: var(--font-display);
+  font-size: 1.1rem;
+  color: var(--pink);
+  margin-top: 1rem;
+  position: relative;
+  z-index: 1;
+}
+
+/* ---- Hint ---- */
+.hint {
+  font-size: 0.85rem;
+  color: rgba(255, 255, 255, 0.4);
+  letter-spacing: 0.1em;
+  opacity: 0;
+  animation: fadeInUp 1s 1.8s ease-out forwards;
+}
+
+/* ---- Footer ---- */
+footer {
+  position: relative;
+  z-index: 1;
+  text-align: center;
+  padding: 2rem;
+  color: rgba(255, 255, 255, 0.3);
+  font-size: 0.85rem;
+}
+
+/* ---- Responsive ---- */
+@media (max-width: 600px) {
+  .characters {
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .love-pulse {
+    margin: 0;
+    order: -1;
+  }
+
+  .love-card {
+    padding: 1.5rem;
+  }
+}
